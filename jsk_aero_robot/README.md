@@ -59,6 +59,149 @@ https://github.com/seed-solutions/aero-ros-pkg/blob/master/aero_std/README.md
 Demo spot is already registered on spot.yaml file.\
 https://github.com/taichiH/jsk_robot/blob/master/jsk_aero_robot/jsk_aero_startup/rooms/610/spot.yaml
 
+## Setup PS4 joystick controller
+
+- Disable drivers/apps for PS3 joy
+
+    ```bash
+    sudo systemctl stop sixad.service
+    sudo systemctl disable sixad.service
+    sudo reboot
+    ```
+
+- Install driver for PS4 joysticks
+
+    ```bash
+    sudo pip install ds4drv
+    ```
+
+- Register the joystick driver as a startup application
+
+    Save the file below:
+
+    ```conf
+    # /etc/systemd/system/ds4drv.service
+    [Unit]
+    Description=ds4drv daemon
+    Requires=bluetooth.service
+    After=bluetooth.service
+
+    [Service]
+    ExecStart=/usr/local/bin/ds4drv
+    Restart=on-abort
+
+    [Install]
+    WantedBy=bluetooth.target
+    ```
+
+    And then register the file as a service:
+
+    ```bash
+    sudo systemctl enable ds4drv.service
+    sudo systemctl start ds4drv.service
+    ```
+
+- Pairing the joystick
+
+    ```bash
+    leus@aerov:~$ sudo bluetoothctl
+    [NEW] Controller 7C:5C:F8:F8:0F:BF leus [default]
+    [bluetooth]# scan on  ### Here, long press PS+SHARE buttons until the LED starts blinking quickly.
+    Discovery started
+    [CHG] Controller 7C:5C:F8:F8:0F:BF Discovering: yes
+    [NEW] Device DB:AD:99:F0:51:B1 DB-AD-99-F0-51-B1
+    [NEW] Device 73:D8:6D:DB:B6:CD 73-D8-6D-DB-B6-CD
+    [CHG] Device 73:D8:6D:DB:B6:CD RSSI: -65
+    [CHG] Device 73:D8:6D:DB:B6:CD Name: 73B2
+    [CHG] Device 73:D8:6D:DB:B6:CD Alias: 73B2
+    [NEW] Device 43:51:A9:0D:DC:6F 43-51-A9-0D-DC-6F
+    [NEW] Device 94:65:2D:BF:ED:8C OnePlus 5T
+    [NEW] Device 80:56:F2:6A:85:B6 80-56-F2-6A-85-B6
+    [CHG] Device 80:56:F2:6A:85:B6 Name: BRAVIA
+    [CHG] Device 80:56:F2:6A:85:B6 Alias: BRAVIA
+    [CHG] Device 80:56:F2:6A:85:B6 UUIDs: 00001200-0000-1000-8000-00805f9b34fb
+    [NEW] Device 1C:66:6D:7B:C6:0A Wireless Controller  #### <- This is the one!
+    [CHG] Device DB:AD:99:F0:51:B1 RSSI: -63
+    [CHG] Device 73:D8:6D:DB:B6:CD RSSI: -76
+    [NEW] Device 7A:66:83:17:E5:63 7A-66-83-17-E5-63
+    [NEW] Device B4:B6:76:E9:B2:D5 B4-B6-76-E9-B2-D5
+
+    [bluetooth]# pair 1C:66:6D:7B:C6:0A  ### Here, long press PS+SHARE buttons.
+    Attempting to pair with 1C:66:6D:7B:C6:0A
+    [CHG] Device 1C:66:6D:7B:C6:0A Connected: yes
+    [CHG] Device 1C:66:6D:7B:C6:0A Modalias: usb:v054Cp05C4d0100
+    [CHG] Device 1C:66:6D:7B:C6:0A UUIDs: 00001124-0000-1000-8000-00805f9b34fb
+    [CHG] Device 1C:66:6D:7B:C6:0A UUIDs: 00001200-0000-1000-8000-00805f9b34fb
+    [CHG] Device 1C:66:6D:7B:C6:0A Paired: yes
+    Pairing successful
+    [CHG] Device 1C:66:6D:7B:C6:0A Connected: no
+    ```
+
+    (Note: If pairing fails, try the following commands)
+    ```
+    [bluetooth]# pair 28:C1:3C:81:1A:1D
+    Attempting to pair with 28:C1:3C:81:1A:1D
+    [CHG] Device 28:C1:3C:81:1A:1D Connected: yes
+    Failed to pair: org.bluez.Error.AuthenticationFailed
+    [CHG] Device 28:C1:3C:81:1A:1D Connected: no
+
+    [bluetooth]# agent on
+    Agent registered
+    [bluetooth]# default-agent
+    Default agent request successful
+    [bluetooth]# power on
+    Changing power on succeeded
+    [bluetooth]# discoverable on
+    Changing discoverable on succeeded
+    [bluetooth]# pairable on
+    Changing pairable on succeeded
+    When asked for pincode, type '0000'
+    [bluetooth]# pair 28:C1:3C:81:1A:1D
+    Attempting to pair with 28:C1:3C:81:1A:1D
+    [CHG] Device 28:C1:3C:81:1A:1D Connected: yes
+    Request PIN code
+    [agent] Enter PIN code: 0000
+    [CHG] Device 28:C1:3C:81:1A:1D Paired: yes
+    Pairing successful
+    [CHG] Device 28:C1:3C:81:1A:1D Connected: no
+    ```
+    (End note)
+    ```
+    ## Next, trust the device, otherwise the connection will never be established.
+    [bluetooth]# trust 1C:66:6D:7B:C6:0A
+    [CHG] Device 1C:66:6D:7B:C6:0A Trusted: yes
+    Changing 1C:66:6D:7B:C6:0A trust succeeded
+    [bluetooth]# info 1C:66:6D:7B:C6:0A
+    Device 1C:66:6D:7B:C6:0A
+            Name: Wireless Controller
+            Alias: Wireless Controller
+            Class: 0x002508
+            Icon: input-gaming
+            Paired: yes
+            Trusted: yes
+            Blocked: no
+            Connected: no
+            LegacyPairing: no
+            UUID: Human Interface Device... (00001124-0000-1000-8000-00805f9b34fb)
+            UUID: PnP Information           (00001200-0000-1000-8000-00805f9b34fb)
+            Modalias: usb:v054Cp05C4d0100
+
+    # Here, press the PS button, and you will see the LED is illuminated blue.
+    [Wireless Controller]# info 1C:66:6D:7B:C6:0A
+    Device 1C:66:6D:7B:C6:0A
+            Name: Wireless Controller
+            Alias: Wireless Controller
+            Class: 0x002508
+            Icon: input-gaming
+            Paired: yes
+            Trusted: yes
+            Blocked: no
+            Connected: yes   ### <== Changed from `no`
+            LegacyPairing: no
+            UUID: Human Interface Device... (00001124-0000-1000-8000-00805f9b34fb)
+            UUID: PnP Information           (00001200-0000-1000-8000-00805f9b34fb)
+            Modalias: usb:v054Cp05C4d0100
+    ```
 
 ## Control from Joy
 Control mode is divided into `ik-mode` and `basic-mode`.
