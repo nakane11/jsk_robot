@@ -87,7 +87,7 @@ https://github.com/taichiH/jsk_robot/blob/master/jsk_aero_robot/jsk_aero_startup
     After=bluetooth.service
 
     [Service]
-    ExecStart=/usr/local/bin/ds4drv
+    ExecStart=/usr/local/bin/ds4drv --hidraw
     Restart=on-abort
 
     [Install]
@@ -202,6 +202,13 @@ https://github.com/taichiH/jsk_robot/blob/master/jsk_aero_robot/jsk_aero_startup
             UUID: PnP Information           (00001200-0000-1000-8000-00805f9b34fb)
             Modalias: usb:v054Cp05C4d0100
     ```
+- Write the following settings in udev rules as `73-controller.rules` and save.
+
+```
+SUBSYSTEMS=="input", KERNEL=="js[0-9]*", ATTRS{name}=="Sony Computer Entertainment Wireless Controller", SYMLINK+="sensors/ps4joy"
+```
+
+After that, reboot PC.
 
 ## Control from Joy
 Control mode is divided into `ik-mode` and `basic-mode`.
