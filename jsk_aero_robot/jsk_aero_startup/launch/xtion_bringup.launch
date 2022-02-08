@@ -7,6 +7,7 @@
   <arg name="camera_manager" default="/openni_camera/openni_camera_nodelet_manager" />
   <arg name="throttle_image" default="true" />
   <arg name="throttled_rate" default="4.0" />
+  <arg name="throttle_queue_size" default="30" />
 
   <!-- set lowest png compression level -->
   <param name="$(arg camera)/depth/image_raw/compressed/format" value="png" />
@@ -43,7 +44,7 @@
                to="depth_registered/image_raw/throttled/compressedDepth" />
         <rosparam subst_value="true" >
           approximate_sync: true
-          queue_size: 5
+          queue_size: $(arg throttle_queue_size)
           update_rate: $(arg throttled_rate)
           topics:
           - /$(arg camera)/rgb/image_raw/compressed
