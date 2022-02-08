@@ -17,8 +17,8 @@ rosdep install -y -r --from-paths src --ignore-src
 ```
 catkin build aero_description
 catkin build jsk_aero_shop
-roscd aero_desctiption
-./setup jsk_aero_shop/typeJSK
+roscd aero_description
+./setup.sh jsk_aero_shop/typeJSK
 source ~/.bashrc
 ```
 
