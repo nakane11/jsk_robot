@@ -18,6 +18,7 @@
   <run_depend>seedhand_std</run_depend>
   <run_depend>jsk_maps</run_depend>
   <run_depend>jsk_robot_startup</run_depend>
+  <run_depend>jsk_topic_tools</run_depend>
   <run_depend>nodelet</run_depend>
   <run_depend>tf2_ros</run_depend>
   <run_depend>tf</run_depend>

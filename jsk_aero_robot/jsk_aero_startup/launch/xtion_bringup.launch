@@ -4,6 +4,9 @@
   <arg name="depth_camera_info_url" default="" />
   <arg name="publish_tf" default="true" />
   <arg name="camera" default="openni_camera" />
+  <arg name="camera_manager" default="/openni_camera/openni_camera_nodelet_manager" />
+  <arg name="throttle_image" default="true" />
+  <arg name="throttled_rate" default="4.0" />
 
   <!-- set lowest png compression level -->
   <param name="$(arg camera)/depth/image_raw/compressed/format" value="png" />
@@ -27,4 +30,28 @@
         args="0.083 0.05 0.1
               0.011 0.062 0.014 0.998
               $(arg base_frame) $(arg camera_frame) 1000" />
+
+  <group if="$(arg throttle_image)">
+    <group ns="$(arg camera)" >
+      <node name="throttle_image"
+            pkg="nodelet" type="nodelet"
+            args="load jsk_topic_tools/SynchronizedThrottle $(arg camera_manager)"
+            respawn="true" >
+        <remap from="rgb/image_raw/compressed/throttled"
+               to="rgb/image_raw/throttled/compressed" />
+        <remap from="depth_registered/image_raw/compressedDepth/throttled"
+               to="depth_registered/image_raw/throttled/compressedDepth" />
+        <rosparam subst_value="true" >
+          approximate_sync: true
+          queue_size: 5
+          update_rate: $(arg throttled_rate)
+          topics:
+          - /$(arg camera)/rgb/image_raw/compressed
+          - /$(arg camera)/rgb/camera_info
+          - /$(arg camera)/depth_registered/image_raw/compressedDepth
+          - /$(arg camera)/depth_registered/camera_info
+        </rosparam>
+      </node>
+    </group>
+  </group>
 </launch>
