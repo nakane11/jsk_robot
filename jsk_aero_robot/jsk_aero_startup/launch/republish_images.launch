@@ -1,0 +1,113 @@
+<launch>
+
+  <arg name="camera" default="openni_camera"
+       doc="namespace of published topics" />
+  <arg name="remote_camera" default="remote_openni_camera"
+       doc="namespace of republished topics" />
+  <arg name="rgb" default="rgb"
+       doc="namespace of rgb topics" />
+  <arg name="ir" default="ir"
+       doc="namespace of ir topics" />
+  <arg name="depth" default="depth"
+       doc="namespace of depth topics" />
+  <arg name="depth_registered" default="depth_registered"
+       doc="namespace of depth_registered topics" />
+  <arg name="depth_registered_filtered" default="depth_registered" />
+  <arg name="use_throttled_image" default="true" />
+  <arg name="depth_registration" default="true" />
+
+  <arg name="num_worker_threads" default="4"
+       doc="Worker threads for the nodelet manager" />
+
+  <!-- Processing Modules -->
+  <arg name="rgb_processing"                  default="true"  />
+  <arg name="debayer_processing"              default="false" />
+  <arg name="ir_processing"                   default="true" />
+  <arg name="depth_processing"                default="true" />
+  <arg name="depth_registered_processing"     default="true" />
+  <arg name="disparity_processing"            default="false" />
+  <arg name="disparity_registered_processing" default="false" />
+  <arg name="hw_registered_processing"        default="true" if="$(arg depth_registration)" />
+  <arg name="sw_registered_processing"        default="false" if="$(arg depth_registration)" />
+  <arg name="hw_registered_processing"        default="false" unless="$(arg depth_registration)" />
+  <arg name="sw_registered_processing"        default="true" unless="$(arg depth_registration)" />
+
+  <arg unless="$(arg use_throttled_image)"
+       name="throttled" value="" />
+  <arg if="$(arg use_throttled_image)"
+       name="throttled" value="/throttled" />
+
+  <!-- publishing is delayed because the computation load of png's compression processing
+       is too large for the default compression ratio. As a result,
+       it is inferred that synchronization problems occur when creating point clouds. -->
+  <group ns="$(arg remote_camera)" >
+    <!-- Start nodelet manager -->
+    <arg name="manager" value="$(arg remote_camera)_nodelet_manager" />
+    <include file="$(find rgbd_launch)/launch/includes/manager.launch.xml">
+      <arg name="name" value="$(arg manager)" />
+      <arg name="num_worker_threads"  value="$(arg num_worker_threads)" />
+    </include>
+
+    <group ns="$(arg depth_registered)" >
+      <group ns="image_rect" >
+        <param name="compressed/format" value="png" />
+        <param name="compressed/png_level" value="1" />
+        <param name="compressedDepth/png_level" value="1" />
+      </group>
+      <group ns="image_rect_raw" >
+        <param name="compressed/format" value="png" />
+        <param name="compressed/png_level" value="1" />
+        <param name="compressedDepth/png_level" value="1" />
+      </group>
+
+      <node name="relay_info"
+	          pkg="topic_tools" type="relay"
+	          args="/$(arg camera)/$(arg depth_registered)/camera_info$(arg throttled)
+	                camera_info">
+      </node>
+      <node name="republish_image"
+            pkg="image_transport" type="republish"
+	          args="compressedDepth raw">
+        <remap from="in" to="/$(arg camera)/$(arg depth_registered)/image_raw$(arg throttled)"/>
+        <remap from="out" to="image_raw" />
+      </node>
+    </group> <!-- end of $(arg depth_registered) ns -->
+    <group ns="$(arg rgb)" >
+      <node name="relay_info"
+	          pkg="topic_tools" type="relay"
+	          args="/$(arg camera)/$(arg rgb)/camera_info$(arg throttled)
+	                camera_info">
+      </node>
+
+      <node name="republish_image"
+            pkg="image_transport" type="republish"
+	          args="compressed raw" >
+        <remap from="in" to="/$(arg camera)/$(arg rgb)/image_raw$(arg throttled)" />
+        <remap from="out" to="image_raw" />
+      </node>
+    </group> <!-- end of $(arg rgb) ns -->
+
+    <!-- Load standard constellation of processing nodelets -->
+    <include file="$(find rgbd_launch)/launch/includes/processing.launch.xml">
+      <arg name="manager"                         value="$(arg manager)" />
+
+      <!-- camera names "rgb", "depth" and "ir" are hard-coded in the driver -->
+      <arg name="rgb"                             value="$(arg rgb)" />
+      <arg name="ir"                              value="$(arg ir)" />
+      <arg name="depth"                           value="$(arg depth)" />
+      <arg name="depth_registered"                value="$(arg depth_registered)" />
+
+      <arg name="rgb_processing"                  value="$(arg rgb_processing)" />
+      <arg name="debayer_processing"              value="$(arg debayer_processing)" />
+      <arg name="ir_processing"                   value="$(arg ir_processing)" />
+      <arg name="depth_processing"                value="$(arg depth_processing)" />
+      <arg name="depth_registered_processing"     value="$(arg depth_registered_processing)" />
+      <arg name="disparity_processing"            value="$(arg disparity_processing)" />
+      <arg name="disparity_registered_processing" value="$(arg disparity_registered_processing)" />
+      <arg name="hw_registered_processing"        value="$(arg hw_registered_processing)" />
+      <arg name="sw_registered_processing"        value="$(arg sw_registered_processing)" />
+    </include>
+
+  </group> <!-- end of camera ns -->
+
+</launch>
