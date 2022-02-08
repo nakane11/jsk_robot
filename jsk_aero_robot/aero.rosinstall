@@ -1,7 +1,7 @@
 - git:
     local-name: jsk-ros-pkg/jsk_robot
-    uri: https://github.com/jsk-ros-pkg/jsk_robot.git
-    version: master
+    uri: https://github.com/iory/jsk_robot.git
+    version: aero-master
 - git:
     local-name: seed-solutions/aero-ros-pkg
     uri: https://github.com/seed-solutions/aero-ros-pkg.git
