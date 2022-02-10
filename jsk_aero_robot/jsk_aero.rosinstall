@@ -1,0 +1,14 @@
+- git:
+    local-name: aero-ros-pkg
+    uri: https://github.com/iory/aero-ros-pkg
+    version: master
+- git:
+    local-name: jsk-ros-pkg/jsk_3rdparty
+    uri: https://github.com/jsk-ros-pkg/jsk_3rdparty
+- git:
+    local-name: jsk-ros-pkg/jsk_demos
+    uri: https://github.com/jsk-ros-pkg/jsk_demos
+- git:
+    local-name: jsk-ros-pkg/jsk_robot
+    uri: https://github.com/iory/jsk_robot.git
+    version: aero-master
