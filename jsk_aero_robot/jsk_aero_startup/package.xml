@@ -15,9 +15,11 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
+  <run_depend>aero_teleop</run_depend>
   <run_depend>aeroeus</run_depend>
   <run_depend>compressed_depth_image_transport</run_depend>
   <run_depend>compressed_image_transport</run_depend>
+  <run_depend>google_cloud_texttospeech</run_depend>
   <run_depend>jsk_maps</run_depend>
   <run_depend>jsk_robot_startup</run_depend>
   <run_depend>jsk_topic_tools</run_depend>
@@ -25,8 +27,8 @@
   <run_depend>openni2_launch</run_depend>
   <run_depend>pr2_base_trajectory_action</run_depend>
   <run_depend>seedhand_std</run_depend>
-  <run_depend>tf2_ros</run_depend>
   <run_depend>tf</run_depend>
+  <run_depend>tf2_ros</run_depend>
   <run_depend>yocs_cmd_vel_mux</run_depend>
 
 </package>

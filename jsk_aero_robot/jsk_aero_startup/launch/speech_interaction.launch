@@ -1,6 +1,7 @@
 <launch>
 
-  <include file="$(find jsk_aero_startup)/launch/text_to_speech.launch" >
+  <!-- Bringup Text to Speech -->
+  <include file="$(find jsk_aero_startup)/launch/tts/google_cloud_texttospeech.launch" >
   </include>
 
   <include file="$(find jsk_aero_startup)/launch/speech_recognition.launch" >
