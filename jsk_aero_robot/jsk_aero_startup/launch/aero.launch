@@ -51,4 +51,7 @@
         pkg="seedhand_std" type="seedhand_server"
         output="screen"/>
 
+  <node name="finish_launch_sound"
+        pkg="jsk_aero_startup" type="boot_sound.py" />
+
 </launch>
