@@ -36,3 +36,5 @@ analyzers:
         path: Head Camera
         find_and_remove_prefix: "openni_"
         num_items: 2
+        discard_stale: true
+        timeout: 10.0

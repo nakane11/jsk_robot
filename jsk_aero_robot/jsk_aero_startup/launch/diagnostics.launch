@@ -22,6 +22,7 @@
   <node name="audible_warning"
         pkg="jsk_aero_startup" type="audible_warning.py" >
     <rosparam>
+      warn_stale: false
       blacklist:
       - /SoundPlay
     </rosparam>
