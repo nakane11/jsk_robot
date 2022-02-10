@@ -32,7 +32,7 @@ class CameraCheck(object):
         self.vendor_id = rospy.get_param('~vid', None)
         self.product_id = rospy.get_param('~pid', None)
         self.auto_restart = rospy.get_param("~auto_restart", False)
-        self.duration = rospy.get_param('~duration', 1)
+        self.duration = rospy.get_param('~duration', 5.0)
         self.init_duration = rospy.get_param('~init_duration', 10)
         self.frequency = rospy.get_param('~frequency', None)
         self.speak_enabled = rospy.get_param("~speak", True)
@@ -240,9 +240,15 @@ class CameraCheck(object):
 
     def run(self):
         self.wait_init()
+        rate = rospy.Rate(10)
         while not rospy.is_shutdown():
             self.subscribe()
-            rospy.sleep(self.duration)
+            start_time = rospy.Time.now()
+            while not rospy.is_shutdown() \
+                    and (rospy.Time.now() - start_time).to_sec() < self.duration:
+                rate.sleep()
+                if self.is_topic_received():
+                    self.unsubscribe()
             self.unsubscribe()
             if self.auto_restart \
                and self.is_connected() \
