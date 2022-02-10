@@ -4,6 +4,19 @@
   <arg name="use_torso_sensor" default="false"/>
   <!--arg name="machine" default="aeroc"/-->
 
-  <include file="$(find jsk_aero_startup)/launch/xtion_bringup.launch"
-           if="$(arg use_xtion)"/>
+  <group if="$(arg use_xtion)" >
+    <include file="$(find jsk_aero_startup)/launch/xtion_bringup.launch" />
+
+    <node name="openni_camera_check"
+          pkg="jsk_aero_startup" type="camera_check.py" >
+      <rosparam>
+        vid: "1d27"
+        pid: "0600"
+        topic_names: ["/openni_camera/rgb/image_raw"]
+        camera_nodelet_manager_name: /openni_camera/openni_camera_nodelet_manager
+        restart_camera_command: 'roslaunch jsk_aero_startup xtion_bringup.launch'
+      </rosparam>
+    </node>
+  </group>
+
 </launch>
