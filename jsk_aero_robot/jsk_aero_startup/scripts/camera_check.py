@@ -122,7 +122,7 @@ class CameraCheck(object):
                                      self.vendor_id, self.product_id))
                 else:
                     stat.summary(diagnostic_msgs.msg.DiagnosticStatus.ERROR,
-                                 'device exists : {}:{}'.format(
+                                 'device not exists : {}:{}'.format(
                                      self.vendor_id, self.product_id))
         else:
             raise NotImplementedError("device_type {} is not yet supported".
