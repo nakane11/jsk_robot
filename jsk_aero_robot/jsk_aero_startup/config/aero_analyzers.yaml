@@ -1,0 +1,38 @@
+pub_rate: 1.0
+base_path: '' # Optional, prepended to all diagnostic output
+analyzers:
+  sound_play:
+    type: diagnostic_aggregator/GenericAnalyzer
+    path: SoundPlay
+    startswith: sound_play
+  cpu:
+    type: diagnostic_aggregator/AnalyzerGroup
+    path: CPU
+    analyzers:
+      mainboard:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Temperature
+        startswith: 'my_machine CPU Temperature'
+      charger:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: CPU Usage
+        startswith: 'my_machine CPU Usage'
+  devices:
+    type: diagnostic_aggregator/AnalyzerGroup
+    path: Devices
+    analyzers:
+      joystick:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Joystick
+        expected: 'joy_node: Joystick Driver Status'
+        num_items: 1
+      base_hk:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Base Hokuyo
+        find_and_remove_prefix: urg_node
+        num_items: 2
+      head_camera:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Head Camera
+        find_and_remove_prefix: "openni_"
+        num_items: 2

@@ -20,6 +20,7 @@
   <run_depend>compressed_depth_image_transport</run_depend>
   <run_depend>compressed_image_transport</run_depend>
   <run_depend>google_cloud_texttospeech</run_depend>
+  <run_depend>ros_speech_recognition</run_depend>
   <run_depend>jsk_maps</run_depend>
   <run_depend>jsk_robot_startup</run_depend>
   <run_depend>jsk_topic_tools</run_depend>
@@ -30,5 +31,9 @@
   <run_depend>tf</run_depend>
   <run_depend>tf2_ros</run_depend>
   <run_depend>yocs_cmd_vel_mux</run_depend>
+
+  <!-- for diagnostics -->
+  <run_depend>diagnostic_aggregator</run_depend>
+  <run_depend>sysstat</run_depend>
 
 </package>

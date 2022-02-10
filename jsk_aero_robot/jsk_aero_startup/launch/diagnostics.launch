@@ -1,0 +1,30 @@
+<launch>
+
+  <!-- diagnostic aggregator -->
+  <node name="diagnostic_agg"
+        pkg="diagnostic_aggregator" type="aggregator_node"
+        args="CPP" output="screen" >
+    <rosparam command="load" file="$(find jsk_aero_startup)/config/aero_analyzers.yaml" />
+  </node>
+
+  <!-- publish CPU status to diagnostics -->
+  <node name="cpu_monitor"
+        pkg="pr2_computer_monitor" type="cpu_monitor.py"
+        args="--diag-hostname=my_machine" >
+    <param name="check_ipmi_tool" value="false" type="bool" />
+    <param name="enforce_clock_speed" value="false" type="bool" />
+    <param name="num_cores" value="-1" type="int" />
+    <param name="load1_threshold" value="7.0"/>
+    <param name="load5_threshold" value="5.0"/>
+  </node>
+
+  <!-- speak warning -->
+  <node name="audible_warning"
+        pkg="jsk_aero_startup" type="audible_warning.py" >
+    <rosparam>
+      blacklist:
+      - /SoundPlay
+    </rosparam>
+  </node>
+
+</launch>
