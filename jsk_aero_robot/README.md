@@ -3,8 +3,10 @@
 ## Installation
 Install aero-ros-pkg on ROS workspace
 ```
+mkdir -p ~/ros/aero/src
+cd ~/ros/aero/src
 git clone https://github.com/seed-solutions/aero-ros-pkg
-git clone https://github.com/taichiH/jsk_robot
+git clone -b aero-master https://github.com/iory/jsk_robot
 ```
 
 ## Install Dependencies on ROS workspace
@@ -19,6 +21,7 @@ catkin build aero_description
 catkin build jsk_aero_shop
 roscd aero_description
 ./setup.sh jsk_aero_shop/typeJSK
+catkin build jsk_aero_startup
 source ~/.bashrc
 ```
 
