@@ -1,0 +1,7 @@
+<launch>
+
+  <node name="$(anon jsk_startup_rviz)"
+        pkg="rviz" type="rviz"
+        args="-d $(find jsk_aero_startup)/config/jsk_startup.rviz" />
+
+</launch>
