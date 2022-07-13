@@ -21,3 +21,11 @@ apps:
     display: fetch patrol in 73B2
   - app: jsk_fetch_startup/speak_battery
     display: speak battery information
+  - app: jsk_fetch_startup/time_signal
+    display: speak time signal
+  - app: jsk_fetch_startup/upload_notification
+    display: Upload notification
+  - app: jsk_fetch_startup/light_on
+    display: light on
+  - app: jsk_fetch_startup/light_off
+    display: light off

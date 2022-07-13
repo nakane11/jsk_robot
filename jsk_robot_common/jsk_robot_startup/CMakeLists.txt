@@ -21,15 +21,29 @@ else()
   endif()
 endif()
 
-find_package(catkin REQUIRED COMPONENTS
+find_package(catkin COMPONENTS # remove REQUIRED for mongodb
+  angles
   dynamic_reconfigure
   jsk_topic_tools
+  message_generation
   mongodb_store
   sensor_msgs
   urdf
 )
+if(NOT(dynamic_reconfigure_FOUND AND jsk_topic_tools_FOUND AND sensor_msgs_FOUND AND urdf_FOUND))
+  message(FATAL_ERROR "requried package is not found
+dynamic_reconfigure_FOUND : ${dynamic_reconfigure_FOUND}
+jsk_topic_tools_FOUND : ${jsk_topic_tools_FOUND}
+sensor_msgs_FOUND : ${sensor_msgs_FOUND}
+urdf_FOUND : ${urdf_FOUND}")
+endif()
 
-find_package(Boost REQUIRED)
+
+find_package(Boost REQUIRED COMPONENTS program_options thread system)
+if ("${BOOST_MAJOR_VERSION}" VERSION_EQUAL "1" AND "${Boost_MINOR_VERSION}" VERSION_GREATER "46")
+  find_package(Boost REQUIRED COMPONENTS chrono)
+endif()
+
 find_package(OpenCV REQUIRED)
 
 catkin_python_setup()
@@ -41,7 +55,19 @@ generate_dynamic_reconfigure_options(
   cfg/JointStatesThrottle.cfg
 )
 
+add_message_files(
+  FILES
+  RoomLight.msg
+  Email.msg
+)
+
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
+
 catkin_package(
+  CATKIN_DEPENDS message_runtime
   INCLUDE_DIRS include
   LIBRARIES ${PROJECT_NAME}
 )
@@ -59,8 +85,14 @@ macro(add_lifelog_nodelet _cpp _cls _bin)
 endmacro()
 
 # jsk_topic_tools >= 2.2.27 only available from indigo
+# mongodb_store >= 0.4.4 required in kinetic
+# mongodb_store >= 0.5.2 required in melodic
+if(mongodb_store_FOUND)
 if($ENV{ROS_DISTRO} STRGREATER "hydro")
-   add_lifelog_nodelet(src/lightweight_logger_nodelet.cpp "jsk_robot_lifelog/LightweightLogger" "lightweight_logger")
+  if (("${mongodb_store_VERSION}" VERSION_GREATER "0.4.3" AND "${mongodb_store_VERSION}" VERSION_LESS "0.5.0")
+      OR "${mongodb_store_VERSION}" VERSION_GREATER "0.5.1")
+    add_lifelog_nodelet(src/lightweight_logger_nodelet.cpp "jsk_robot_lifelog/LightweightLogger" "lightweight_logger")
+  endif()
 endif()
 
 add_library(jsk_robot_lifelog SHARED
@@ -72,6 +104,10 @@ target_link_libraries(jsk_robot_lifelog
   ${OpenCV_LIBRARIES}
   ${catkin_LIBRARIES})
 add_dependencies(jsk_robot_lifelog ${PROJECT_NAME}_gencpp ${PROJECT_NAME}_gencfg)
+
+else(mongodb_store_FOUND)
+  message(AUTHOR_WARNING "===\nros-$ENV{ROS_DISTRO}-mongodb-store package is not found, may be it is not releaed yet\n===")
+endif(mongodb_store_FOUND)
 
 find_package(PkgConfig)
 pkg_check_modules(URDFDOM REQUIRED urdfdom)
@@ -90,7 +126,14 @@ install(DIRECTORY lifelog util launch images config cfg
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
   USE_SOURCE_PERMISSIONS)
 
-install(TARGETS jsk_robot_lifelog ${${PROJET_NAME}_LIFELOG_NODELET_EXECUTABLES}
+if(mongodb_store_FOUND)
+install(TARGETS jsk_robot_lifelog
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+endif(mongodb_store_FOUND)
+install(TARGETS joint_states_throttle ${${PROJET_NAME}_LIFELOG_NODELET_EXECUTABLES}
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -101,4 +144,5 @@ if(CATKIN_ENABLE_TESTING)
   # Disabled since cannot set environment variables for rostest for now.
   # see https://github.com/PR2/pr2_simulator/pull/126
   # add_rostest(lifelog/test/logger_pr2.test)
+  add_rostest(lifelog/test/test_common_logger.test)
 endif()

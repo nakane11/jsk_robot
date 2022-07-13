@@ -41,7 +41,7 @@ class FileLogger(BatteryLogger):
                     "Output directory path already exitsts as file: %s" % self.out_dir)
             orig_umask = os.umask(0)
             try:
-                os.makedirs(self.out_dir, 0777)
+                os.makedirs(self.out_dir, 0o777)
             finally:
                 os.umask(orig_umask)
 
@@ -68,7 +68,7 @@ class FileLogger(BatteryLogger):
         if not is_file_writable(filename):
             orig_umask = os.umask(0)
             try:
-                os.chmod(os.path.abspath(filename), 0777)
+                os.chmod(os.path.abspath(filename), 0o777)
             finally:
                 os.umask(orig_umask)
 
@@ -80,8 +80,13 @@ class DweetLogger(BatteryLogger):
 
     def write(self, date, info):
         info["date"] = date.secs
-        res = requests.post("http://dweet.io/dweet/for/{uid}".format(uid=self.uid),
-                            json=info)
+        try:
+            res = requests.post("http://dweet.io/dweet/for/{uid}".format(uid=self.uid),
+                                json=info)
+        except Exception as e:
+            rospy.logerr("{}".format(e))
+            rospy.logerr("Could not write to dweet.io")
+            return
         assert res.ok and json.loads(res.content)["this"] == "succeeded"
 
 
