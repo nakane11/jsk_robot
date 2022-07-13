@@ -20,7 +20,7 @@
 
   <!-- speak warning -->
   <node name="audible_warning"
-        pkg="jsk_aero_startup" type="audible_warning.py" >
+        pkg="jsk_tools" type="audible_warning.py" >
     <rosparam>
       enable: false
       warn_stale: false
