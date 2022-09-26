@@ -22,10 +22,11 @@ fi
 cd $jsk_robot_startup/data
 sudo cp shutdown_sound.wav /usr/share/sounds/jsk_robot_startup/
 sudo cp reboot_sound.wav /usr/share/sounds/jsk_robot_startup/
+# Created by VOICEVOX:四国めたん
+
+sudo ln -sf /etc/init.d/endshutdownbeep.sh /etc/rc0.d/K00endshutdownbeep.sh
+sudo ln -sf /etc/init.d/endshutdownbeep.sh /etc/rc6.d/K00endshutdownstartbootbeep.sh
 
 # If you add a new script,
 #   1) put it in jsk_robot_startup/init.d
 #   2) make links from each runlevel in which the script is executed
-      
-sudo ln -sf /etc/init.d/endshutdownbeep.sh /etc/rc0.d/K00endshutdownbeep.sh
-sudo ln -sf /etc/init.d/endshutdownbeep.sh /etc/rc6.d/K00endshutdownstartbootbeep.sh
