@@ -20,12 +20,20 @@ if [ ! -d /usr/share/sounds/jsk_robot_startup ]; then
   sudo mkdir -p /usr/share/sounds/jsk_robot_startup
 fi
 cd $jsk_robot_startup/data
-sudo cp shutdown_sound.wav /usr/share/sounds/jsk_robot_startup/
-sudo cp reboot_sound.wav /usr/share/sounds/jsk_robot_startup/
+sudo cp start_sound.wav /usr/share/sounds/jsk_robot_startup/
+sudo cp stop_sound.wav /usr/share/sounds/jsk_robot_startup/
 # Created by VOICEVOX:四国めたん
 
-sudo ln -sf /etc/init.d/endshutdownbeep.sh /etc/rc0.d/K00endshutdownbeep.sh
-sudo ln -sf /etc/init.d/endshutdownbeep.sh /etc/rc6.d/K00endshutdownstartbootbeep.sh
+sudo ln -sf /etc/init.d/endbootstartshutdownbeep.sh /etc/rc1.d/S99endbootstartshutdownbeep.sh
+sudo ln -sf /etc/init.d/endbootstartshutdownbeep.sh /etc/rc2.d/S99endbootstartshutdownbeep.sh
+sudo ln -sf /etc/init.d/endbootstartshutdownbeep.sh /etc/rc3.d/S99endbootstartshutdownbeep.sh
+sudo ln -sf /etc/init.d/endbootstartshutdownbeep.sh /etc/rc4.d/S99endbootstartshutdownbeep.sh
+sudo ln -sf /etc/init.d/endbootstartshutdownbeep.sh /etc/rc5.d/S99endbootstartshutdownbeep.sh
+sudo ln -sf /etc/init.d/endbootstartshutdownbeep.sh /etc/rc1.d/K00endbootstartshutdownbeep.sh
+sudo ln -sf /etc/init.d/endbootstartshutdownbeep.sh /etc/rc2.d/K00endbootstartshutdownbeep.sh
+sudo ln -sf /etc/init.d/endbootstartshutdownbeep.sh /etc/rc3.d/K00endbootstartshutdownbeep.sh
+sudo ln -sf /etc/init.d/endbootstartshutdownbeep.sh /etc/rc4.d/K00endbootstartshutdownbeep.sh
+sudo ln -sf /etc/init.d/endbootstartshutdownbeep.sh /etc/rc5.d/K00endbootstartshutdownbeep.sh
 
 # If you add a new script,
 #   1) put it in jsk_robot_startup/init.d
