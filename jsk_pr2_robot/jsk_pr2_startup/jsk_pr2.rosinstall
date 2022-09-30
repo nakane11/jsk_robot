@@ -1,6 +1,6 @@
 - git:
     local-name: PR2/app_manager
-    uri: https://github.com/PR2/app_manager
+    uri: https://github.com/knorth55/app_manager
     version: pr1040
 - git:
     local-name: PR2/pr2_common
@@ -52,16 +52,16 @@
     version: develop/pr2
 - git:
     local-name: jsk-ros-pkg/jsk_demos
-    uri: https://github.com/jsk-ros-pkg/jsk_demos.git
-    version: master
+    uri: https://github.com/knorth55/jsk_demos.git
+    version: develop/pr2
 - git:
     local-name: jsk-ros-pkg/jsk_planning
     uri: https://github.com/jsk-ros-pkg/jsk_planning.git
     version: master 
 - git:
     local-name: jsk-ros-pkg/jsk_pr2eus
-    uri: https://github.com/jsk-ros-pkg/jsk_pr2eus.git
-    version: knorth55/pr1040
+    uri: https://github.com/knorth55/jsk_pr2eus.git
+    version: pr1040
 - git:
     local-name: jsk-ros-pkg/jsk_recognition
     uri: https://github.com/jsk-ros-pkg/jsk_recognition.git
@@ -72,8 +72,8 @@
     version: develop/pr2
 - git:
     local-name: jsk-ros-pkg/jsk_roseus
-    uri: https://github.com/jsk-ros-pkg/jsk_roseus.git
-    version: knorth55/pr1040 
+    uri: https://github.com/knorth55/jsk_roseus.git
+    version: pr1040
 - git:
     local-name: Affonso-Gui/roseus_resume
     uri: https://github.com/Affonso-Gui/roseus_resume.git
