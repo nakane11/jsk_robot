@@ -131,6 +131,23 @@
       <arg name="odom_topic" value="/odom_combined" />
   </include>
 
+  <!-- base controll node to move along a trajectry -->
+  <node pkg="pr2_base_trajectory_action" type="pr2_base_trajectory_action"
+        name="joint_trajectory_action" ns="base_controller"
+        respawn="true" output="screen">
+    <rosparam>
+      base_link_x:
+          max_velocity: 0.4
+      base_link_pan:
+          max_velocity: 0.65
+    </rosparam>
+    <param name="goal_threshold" value="10.0" /> <!-- ignore goal error -->
+    <param name="stopped_velocity_tolerance" value="0.35" /> <!-- ignore goal stopped velocity tolerance -->
+    <remap from="command" to="/base_controller/cmd_vel" if="$(arg launch_teleop)"/>
+    <remap from="command" to="/base_controller/command" unless="$(arg launch_teleop)"/>
+    <remap from="odom" to="/odom"/>
+  </node>
+
   <!-- network status -->
   <node pkg="jsk_network_tools" type="network_status.py" name="network_status" />
   <!-- network detector -->
