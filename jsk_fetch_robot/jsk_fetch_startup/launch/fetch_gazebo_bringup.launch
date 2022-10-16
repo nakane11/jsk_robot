@@ -41,4 +41,6 @@
     <arg name="launch_insta360" value="false" />
     <arg name="fetch_switchbot" value="false" />
   </include>
+
+  <node name="odom_relay" pkg="topic_tools" type="relay" args="/odom /odom_combined" />
 </launch>
