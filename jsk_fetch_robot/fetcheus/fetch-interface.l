@@ -504,6 +504,15 @@ Example: (send self :gripper :position) => 0.00"
         t)))
   (:move-to-wait (&rest args &key (correction nil) &allow-other-keys)
                  (send-super* :move-to-wait :correction correction args))
+  (:move-trajectory-sequence
+   (trajectory-points time-list &key (stop t) (start-time) (send-action nil))
+   (dolist (pt trajectory-points)
+     (unless (zerop (elt pt 1))
+       (ros::ros-error
+        "Setting trajectory in y-axis is not valid for non-holonomic robot")
+       (return-from :move-trajectory-sequence nil)))
+   (send-super :move-trajectory-sequence trajectory-points time-list
+          :stop stop :start-time start-time :send-action send-action))
 ) ;; fetch-interface (simple base actions)
 
 (defun fetch-init (&optional (create-viewer))
