@@ -13,7 +13,7 @@
 
 (defmethod fetch-interface
   (:init (&rest args &key (default-collision-object t) &allow-other-keys)
-   (prog1 (send-super* :init :robot fetch-robot :base-frame-id "base_link" :odom-topic "/odom_combined" :base-controller-action-name nil args)
+   (prog1 (send-super* :init :robot fetch-robot :base-frame-id "base_link" :odom-topic "/odom_combined" args)
      (send self :add-controller :arm-controller)
      (send self :add-controller :torso-controller)
      (send self :add-controller :head-controller)
