@@ -4,11 +4,11 @@ plugins:
   - {name: inflation_layer,  type: "costmap_2d::InflationLayer" }
 
 footprint: [[-0.34, -0.35], [-0.34, 0.35], [0.34, 0.35], [0.4, 0.0], [0.34, -0.35]]
-footprint_padding: 0.1
+footprint_padding: 0.9
 
 # copied from pr2_navigation_global/config/global_costmap_params.yaml
 global_frame: map
 update_frequency: 5.0
-publish_frequency: 0.0
+publish_frequency: 5.0
 static_map: true
 rolling_window: false
