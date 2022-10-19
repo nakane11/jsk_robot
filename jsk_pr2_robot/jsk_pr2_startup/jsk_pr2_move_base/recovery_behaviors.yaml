@@ -1,35 +1,35 @@
 recovery_behavior_enabled: true
 recovery_behaviors:
-  - name: 'expand_padding0'
+  - name: 'expand_padding0.45'
     type: 'expand_padding/ExpandPadding'
-  - name: 'expand_padding1'
+  - name: 'expand_padding0.25'
     type: 'expand_padding/ExpandPadding'
-  - name: 'expand_padding2'
+  - name: 'expand_padding0.1'
     type: 'expand_padding/ExpandPadding'
-  - name: 'conservative_reset'
-    type: 'clear_costmap_recovery/ClearCostmapRecovery'
-  - name: 'rotate_recovery0'
-    type: 'rotate_recovery/RotateRecovery'
-  - name: 'aggressive_reset'
-    type: 'clear_costmap_recovery/ClearCostmapRecovery'
-  - name: 'rotate_recovery1'
-    type: 'rotate_recovery/RotateRecovery'
-  - name: 'all_reset'
-    type: 'clear_costmap_recovery/ClearCostmapRecovery'
-  - name: 'rotate_recovery2'
-    type: 'rotate_recovery/RotateRecovery'
+  # - name: 'conservative_reset'
+  #   type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  # - name: 'rotate_recovery0'
+  #   type: 'rotate_recovery/RotateRecovery'
+  # - name: 'aggressive_reset'
+  #   type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  # - name: 'rotate_recovery1'
+  #   type: 'rotate_recovery/RotateRecovery'
+  # - name: 'all_reset'
+  #   type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  # - name: 'rotate_recovery2'
+  #   type: 'rotate_recovery/RotateRecovery'
   - name: 'move_slow_and_clear'
     type: 'move_slow_and_clear/MoveSlowAndClear'
 
-expand_padding0:
+expand_padding0.45:
   reconfigure_name: "/move_base_node/global_costmap"
-  footprint_padding: 0.6
+  footprint_padding: 0.45
 
-expand_padding1:
+expand_padding0.25:
   reconfigure_name: "/move_base_node/global_costmap"
-  footprint_padding: 0.3
+  footprint_padding: 0.25
 
-expand_padding2:
+expand_padding0.1:
   reconfigure_name: "/move_base_node/global_costmap"
   footprint_padding: 0.1
 
