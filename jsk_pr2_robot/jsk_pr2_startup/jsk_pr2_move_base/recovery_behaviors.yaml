@@ -1,10 +1,10 @@
 recovery_behavior_enabled: true
 recovery_behaviors:
-  - name: 'expand_padding0.45'
+  - name: 'expand_padding045'
     type: 'expand_padding/ExpandPadding'
-  - name: 'expand_padding0.25'
+  - name: 'expand_padding025'
     type: 'expand_padding/ExpandPadding'
-  - name: 'expand_padding0.1'
+  - name: 'expand_padding01'
     type: 'expand_padding/ExpandPadding'
   # - name: 'conservative_reset'
   #   type: 'clear_costmap_recovery/ClearCostmapRecovery'
