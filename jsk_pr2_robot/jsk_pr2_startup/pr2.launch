@@ -3,7 +3,7 @@
         name="start_launch_sound" />
   <arg name="map_frame" default="eng2" />
   <arg name="launch_map" default="true" />
-  <arg name="launch_kinect" default="true" />
+  <arg name="launch_kinect" default="false" />
   <arg name="launch_move_base" default="true" />
   <arg name="launch_moveit" default="false" />
   <arg name="launch_imagesift" default="false" />
@@ -14,23 +14,23 @@
   <arg name="launch_safety_warning" default="true" />
   <arg name="launch_tablet" default="false" />
   <arg name="launch_jsk_pcl" default="false" />
-  <arg name="launch_db" default="true" />
+  <arg name="launch_db" default="false" />
   <arg name="launch_microphone" default="true" />
   <arg name="launch_teleoperation" default="false" />
   <arg name="launch_people_detection" default="false" />
   <arg name="launch_look_forward" default="true" />
-  <arg name="launch_twitter" default="true" />
+  <arg name="launch_twitter" default="false" />
   <arg name="launch_visualize_log" default="false" />
   <arg name="launch_reset_motors" default="true" />
   <arg name="slow_camera_framerate" default="true" />
   <arg name="launch_c3_startup" default="false" />
   <arg name="use_map_keepout" default="true"
        doc="whether to use keepout map or not for navigation (default: true)"/>
-  <arg name="launch_dialogflow_task_executive" default="true"
+  <arg name="launch_dialogflow_task_executive" default="false"
        doc="whether launch dialogflow_task_executive or not."/>
-  <arg name="launch_gdrive_server_c1" default="true"
+  <arg name="launch_gdrive_server_c1" default="false"
        doc="whether launch gdrive_server on c1 or not."/>
-  <arg name="launch_gdrive_server_c2" default="true"
+  <arg name="launch_gdrive_server_c2" default="false"
        doc="whether launch gdrive_server on c2 or not."/>
   <arg name="USER_NAME" default="false" />
 
@@ -230,28 +230,6 @@
     <rosparam command="load" file="$(find jsk_pr2_startup)/jsk_pr2_warning/sanity_targets.yaml" />
     <rosparam subst_value="true">
       duration: 60
-    </rosparam>
-  </node>
-
-  <!-- send email by rostopic -->
-  <node name="email_topic" pkg="jsk_robot_startup" type="email_topic.py" output="screen">
-    <rosparam>
-      email_info: /var/lib/robot/email_topic.yaml
-    </rosparam>
-  </node>
-
-  <!-- send email, twitter with smach -->
-  <node name="smach_to_mail_server" pkg="jsk_robot_startup" type="smach_to_mail.py" output="screen">
-    <rosparam>
-      email_info: /var/lib/robot/email_topic.yaml
-    </rosparam>
-  </node>
-
-  <!-- publish smach image -->
-  <node name="smach_image_publisher" pkg="smach_viewer" type="smach_image_publisher.py"
-        output="screen">
-    <rosparam>
-      duration: 0.5
     </rosparam>
   </node>
 
