@@ -1,10 +1,10 @@
 recovery_behavior_enabled: true
 recovery_behaviors:
-  - name: 'expand_padding045'
+  - name: 'expand_padding50'
     type: 'expand_padding/ExpandPadding'
-  - name: 'expand_padding025'
+  - name: 'expand_padding25'
     type: 'expand_padding/ExpandPadding'
-  - name: 'expand_padding01'
+  - name: 'expand_padding0'
     type: 'expand_padding/ExpandPadding'
   # - name: 'conservative_reset'
   #   type: 'clear_costmap_recovery/ClearCostmapRecovery'
@@ -21,17 +21,17 @@ recovery_behaviors:
   - name: 'move_slow_and_clear'
     type: 'move_slow_and_clear/MoveSlowAndClear'
 
-expand_padding0.45:
+expand_padding50:
   reconfigure_name: "/move_base_node/global_costmap"
-  footprint_padding: 0.45
+  padding_ratio: 0.5
 
-expand_padding0.25:
+expand_padding25:
   reconfigure_name: "/move_base_node/global_costmap"
-  footprint_padding: 0.25
+  padding_ratio: 0.5
 
-expand_padding0.1:
+expand_padding0:
   reconfigure_name: "/move_base_node/global_costmap"
-  footprint_padding: 0.1
+  padding_ratio: 0
 
 conservative_reset:
   reset_distance: 2.0
