@@ -3,6 +3,7 @@
 <node pkg="amcl" type="amcl" name="amcl" machine="c2"
       respawn="true" output="log">
   <remap from="scan" to="base_scan_filtered/scan" />
+  <remap from="map" to="map2" />
   <!-- Overall filter parameters -->
   <param name="min_particles" value="500"/>
   <param name="max_particles" value="5000"/>
