@@ -14,7 +14,7 @@
   </group>
 
   <group if="$(arg launch_navigation)">
-    <include file="$(find jsk_pr2_startup)/jsk_pr2_move_base/amcl_node.xml" />
+    <!-- <include file="$(find jsk_pr2_startup)/jsk_pr2_move_base/amcl_node.xml" /> -->
     <include file="$(find jsk_pr2_startup)/jsk_pr2_sensors/lasers_and_filters.xml">
       <arg name="gazebo" value="$(arg gazebo)"/>
     </include>
