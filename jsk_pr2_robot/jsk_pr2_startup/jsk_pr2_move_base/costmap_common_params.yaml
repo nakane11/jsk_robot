@@ -1,4 +1,4 @@
-robot_base_frame: base_footprint
+robot_base_frame: base_converted
 transform_tolerance: 1.0  # 0.2
 
 # parameters for static_layer
