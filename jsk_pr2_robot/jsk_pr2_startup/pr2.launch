@@ -1,7 +1,7 @@
 <launch>
   <node pkg="jsk_robot_startup" type="start_launch_sound.py"
         name="start_launch_sound" />
-  <arg name="map_frame" default="eng2" />
+  <arg name="map_frame" default="eng8" />
   <arg name="launch_map" default="true" />
   <arg name="launch_kinect" default="true" />
   <arg name="launch_move_base" default="true" />
@@ -26,11 +26,11 @@
   <arg name="launch_c3_startup" default="false" />
   <arg name="use_map_keepout" default="true"
        doc="whether to use keepout map or not for navigation (default: true)"/>
-  <arg name="launch_dialogflow_task_executive" default="true"
+  <arg name="launch_dialogflow_task_executive" default="false"
        doc="whether launch dialogflow_task_executive or not."/>
-  <arg name="launch_gdrive_server_c1" default="true"
+  <arg name="launch_gdrive_server_c1" default="false"
        doc="whether launch gdrive_server on c1 or not."/>
-  <arg name="launch_gdrive_server_c2" default="true"
+  <arg name="launch_gdrive_server_c2" default="false"
        doc="whether launch gdrive_server on c2 or not."/>
   <arg name="USER_NAME" default="false" />
 
@@ -193,36 +193,36 @@
         name="finish_launch_sound" />
 
   <!-- check if room light is on -->
-  <node name="check_room_light" pkg="jsk_robot_startup" type="check_room_light.py">
-    <remap from="~input" to="/kinect_head/rgb/image_raw" />
-  </node>
+  <!-- <node name="check_room_light" pkg="jsk_robot_startup" type="check_room_light.py"> -->
+  <!--   <remap from="~input" to="/kinect_head/rgb/image_raw" /> -->
+  <!-- </node> -->
 
-  <node name="audible_warning"
-        pkg="jsk_tools" type="audible_warning.py"
-        clear_params="true"
-        output="screen" >
-    <rosparam command="load" file="$(find jsk_pr2_startup)/jsk_pr2_warning/warning_blacklist.yaml" />
-    <rosparam>
-      run_stop_topic: /power_board/state
-      run_stop_condition: "m.run_stop is False"
-      seconds_to_start_speaking: 60
-      speak_interval: 600
-      ignore_time_after_runstop_is_enabled: 5.0
-      ignore_time_after_runstop_is_disabled: 5.0
-    </rosparam>
-  </node>
+  <!-- <node name="audible_warning" -->
+  <!--       pkg="jsk_tools" type="audible_warning.py" -->
+  <!--       clear_params="true" -->
+  <!--       output="screen" > -->
+  <!--   <rosparam command="load" file="$(find jsk_pr2_startup)/jsk_pr2_warning/warning_blacklist.yaml" /> -->
+  <!--   <rosparam> -->
+  <!--     run_stop_topic: /power_board/state -->
+  <!--     run_stop_condition: "m.run_stop is False" -->
+  <!--     seconds_to_start_speaking: 60 -->
+  <!--     speak_interval: 600 -->
+  <!--     ignore_time_after_runstop_is_enabled: 5.0 -->
+  <!--     ignore_time_after_runstop_is_disabled: 5.0 -->
+  <!--   </rosparam> -->
+  <!-- </node> -->
 
   <group ns="audible_warning" >
     <!-- tweet with image -->
-    <node name="publish_to_tweet_server"
-          pkg="topic_tools" type="transform"
-          args="/audible_warning/output/original_text
-                /tweet_image_server/tweet/goal
-                rostwitter/TweetActionGoal
-                --wait-for-start
-                'rostwitter.msg.TweetActionGoal(goal=rostwitter.msg.TweetGoal(text=&quot;[Audible warning] &quot; + m.data, image=True, image_topic_name=&quot;/edgetpu_human_pose_estimator/output/image&quot;))'
-                --import rostwitter">
-    </node>
+    <!-- <node name="publish_to_tweet_server" -->
+    <!--       pkg="topic_tools" type="transform" -->
+    <!--       args="/audible_warning/output/original_text -->
+    <!--             /tweet_image_server/tweet/goal -->
+    <!--             rostwitter/TweetActionGoal -->
+
+    <!--             'rostwitter.msg.TweetActionGoal(goal=rostwitter.msg.TweetGoal(text=&quot;[Audible warning] &quot; + m.data, image=True, image_topic_name=&quot;/edgetpu_human_pose_estimator/output/image&quot;))' -->
+
+    <!-- </node> -->
   </group>
 
   <node name="sanity_diagnostics"
@@ -234,25 +234,25 @@
   </node>
 
   <!-- send email by rostopic -->
-  <node name="email_topic" pkg="jsk_robot_startup" type="email_topic.py" output="screen">
-    <rosparam>
-      email_info: /var/lib/robot/email_topic.yaml
-    </rosparam>
-  </node>
+  <!-- <node name="email_topic" pkg="jsk_robot_startup" type="email_topic.py" output="screen"> -->
+  <!--   <rosparam> -->
+  <!--     email_info: /var/lib/robot/email_topic.yaml -->
+  <!--   </rosparam> -->
+  <!-- </node> -->
 
   <!-- send email, twitter with smach -->
-  <node name="smach_to_mail_server" pkg="jsk_robot_startup" type="smach_to_mail.py" output="screen">
-    <rosparam>
-      email_info: /var/lib/robot/email_topic.yaml
-    </rosparam>
-  </node>
+  <!-- <node name="smach_to_mail_server" pkg="jsk_robot_startup" type="smach_to_mail.py" output="screen"> -->
+  <!--   <rosparam> -->
+  <!--     email_info: /var/lib/robot/email_topic.yaml -->
+  <!--   </rosparam> -->
+  <!-- </node> -->
 
   <!-- publish smach image -->
-  <node name="smach_image_publisher" pkg="smach_viewer" type="smach_image_publisher.py"
-        output="screen">
-    <rosparam>
-      duration: 0.5
-    </rosparam>
-  </node>
+  <!-- <node name="smach_image_publisher" pkg="smach_viewer" type="smach_image_publisher.py" -->
+  <!--       output="screen"> -->
+  <!--   <rosparam> -->
+  <!--     duration: 0.5 -->
+  <!--   </rosparam> -->
+  <!-- </node> -->
 
 </launch>
