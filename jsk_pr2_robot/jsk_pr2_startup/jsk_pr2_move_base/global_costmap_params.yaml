@@ -12,3 +12,5 @@ update_frequency: 5.0
 publish_frequency: 0.0
 static_map: true
 rolling_window: false
+
+robot_base_frame: base_converted
