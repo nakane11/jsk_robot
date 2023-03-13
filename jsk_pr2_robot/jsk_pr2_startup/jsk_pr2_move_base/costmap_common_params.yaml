@@ -46,4 +46,4 @@ obstacle_layer:
 # parameters for inflation_layer
 inflation_layer:
   inflation_radius: 3.0
-  cost_scaling_factor: 3.0
+  cost_scaling_factor: 1.0
