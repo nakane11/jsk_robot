@@ -11,7 +11,8 @@ obstacle_layer:
   observation_sources: base_scan_filtered tilt_scan_filtered
   base_scan_filtered:
     data_type: PointCloud2
-    topic: /base_scan_filtered
+    # topic: /base_scan_filtered
+    topic: /base_scan_filtered_mux
     sensor_frame: base_laser_link
     marking: true
     clearing: true
@@ -23,7 +24,8 @@ obstacle_layer:
     raytrace_range: 3.0
   tilt_scan_filtered:
     data_type: PointCloud2
-    topic: /tilt_scan_filtered/navigation
+    # topic: /tilt_scan_filtered/navigation
+    topic: /tilt_scan_filtered_mux
     sensor_frame: laser_tilt_link
     marking: true
     clearing: true
@@ -45,5 +47,5 @@ obstacle_layer:
 
 # parameters for inflation_layer
 inflation_layer:
-  inflation_radius: 3.0
-  cost_scaling_factor: 1.0
+  inflation_radius: 1.0
+  cost_scaling_factor: 3.0

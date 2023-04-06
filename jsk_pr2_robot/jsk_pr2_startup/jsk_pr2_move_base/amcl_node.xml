@@ -1,5 +1,6 @@
 <!-- This file is originally pr2_navigation_global/amcl_node.xml -->
 <launch>
+<include file="$(find pr2_machine)/$(env ROBOT).machine" />
 <node pkg="amcl" type="amcl" name="amcl" machine="c2"
       respawn="true" output="log">
   <remap from="scan" to="base_scan_filtered/scan" />

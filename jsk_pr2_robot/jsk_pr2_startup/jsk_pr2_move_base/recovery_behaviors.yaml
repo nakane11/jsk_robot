@@ -16,7 +16,7 @@ recovery_behaviors:
     type: 'move_slow_and_clear/MoveSlowAndClear'
 
 conservative_reset:
-  reset_distance: 2.0
+  reset_distance: 1.6
 
 rotate_recovery0:
   frequency: 20.0
