@@ -22,3 +22,7 @@
 - git:
     local-name: mongodb_store
     uri: https://github.com/strands-project/mongodb_store
+- git:
+    local-name: yujin_ocs
+    uri: https://github.com/yujinrobot/yujin_ocs.git
+    version: devel
