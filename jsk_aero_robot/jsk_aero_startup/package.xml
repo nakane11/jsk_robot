@@ -27,6 +27,7 @@
   <run_depend>nodelet</run_depend>
   <run_depend>openni2_launch</run_depend>
   <run_depend>pr2_base_trajectory_action</run_depend>
+  <run_depend>pr2_computer_monitor</run_depend>
   <run_depend>seedhand_std</run_depend>
   <run_depend>tf</run_depend>
   <run_depend>tf2_ros</run_depend>
