@@ -22,6 +22,7 @@
         pkg="ros_speech_recognition" type="speech_recognition_node.py"
         respawn="true"
         output="screen">
+    <remap from="sound_play" to="robotsound"/>
     <rosparam subst_value="true">
       engine: $(arg engine)
       language: $(arg language)
