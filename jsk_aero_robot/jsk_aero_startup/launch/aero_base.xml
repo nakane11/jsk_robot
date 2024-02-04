@@ -15,7 +15,7 @@
 
   <!--- Bringup wheel -->
   <include file="$(find aero_startup)/aero_move_base/launch/wheel_bringup.launch">
-    <arg name="~ip_address" value="133.11.216.220"/>
+    <arg name="~ip_address" value="192.168.96.220"/>
   </include>
 
   <!--- Run Map Server -->
